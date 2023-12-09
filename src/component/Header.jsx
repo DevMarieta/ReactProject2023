@@ -7,7 +7,7 @@ function Header() {
         <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow mb-3">
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
-              Mimi Am.. Am :)
+              Mimi Am..Am :)
             </a>
             <button
               className="navbar-toggler"

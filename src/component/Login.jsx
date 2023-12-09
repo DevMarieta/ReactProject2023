@@ -36,7 +36,6 @@ function Register() {
                 </div>
                 <div className="col-12 col-md-6 offset-md-3 pb-2">
                   <button
-                    onClick={buttonLoginClicked}
                     type="submit"
                     className="form-control btn btn-success"
                     value="Submit"
