@@ -1,14 +1,16 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
     <div>
       <header>
         <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow mb-3">
+          {/* ------ */}
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <Link to="" className="navbar-brand">
               Mimi Am..Am :)
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -20,67 +22,44 @@ function Header() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
+
+            {/* ------ */}
+            
             <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
               <ul className="navbar-nav flex-grow-1">
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link to="home" className="nav-link">
                     Home
-                  </a>
+                  </Link>
                 </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Content Management
-                  </a>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        asp-controller="Coupon"
-                        asp-action="CouponIndex"
-                      >
-                        Coupon
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        asp-controller="Product"
-                        asp-action="ProductIndex"
-                      >
-                        Product
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                  </ul>
+
+                {/* ------ */}
+
+                <li className="nav-item">
+                  <Link to="order" className="nav-link">
+                    Manage Order
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link">
+                  <a className="nav-link" href="/Cart/CartIndex">
                     &nbsp; <i className="bi bi-cart"></i> &nbsp;
                   </a>
                 </li>
               </ul>
+
+              {/* ------ */}
+
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link to="login" className="nav-link">
                     Login
-                  </a>
+                  </Link>
                 </li>
+
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link to="register" className="nav-link">
                     Register
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -88,7 +67,7 @@ function Header() {
         </nav>
       </header>
     </div>
-  )
+  );
 }
 
-export default Header
+export default Header;

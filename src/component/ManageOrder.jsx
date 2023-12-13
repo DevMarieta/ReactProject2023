@@ -37,7 +37,6 @@ function ManageOrder() {
                   <th></th>
                 </tr>
               </thead>
-              {/* Можете да добавите редове с данни тук */}
             </table>
           </div>
         </div>
