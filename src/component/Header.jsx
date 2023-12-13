@@ -9,7 +9,7 @@ function Header() {
           {/* ------ */}
           <div className="container-fluid">
             <Link to="" className="navbar-brand">
-              Mimi Am..Am :)
+             MimiMango.Web
             </Link>
             <button
               className="navbar-toggler"

@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-function Register() {
+function Login() {
   return (
     <div className="container">
       <main role="main" className="pb-3">
@@ -31,7 +30,7 @@ function Register() {
                 <span asp-validation-for="Password" className="text-danger" />
               </div>
               <div className="col-12 col-md-6 offset-md-3 pb-2">
-                
+
                 <button
                   type="submit"
                   className="form-control btn btn-success"
@@ -49,4 +48,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

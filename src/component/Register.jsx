@@ -1,11 +1,21 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import React, { useState } from "react";
 
 function Register() {
+  const initialValue = { Email: "", Name: "", PhoneNumber: "", Password: "" };
+  const [formValue, setFormValue] = useState(initialValue);
+
+  const handleChange = (e) => {
+    console.log(e.target);
+    const { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
+    console.log(formValue);
+  };
+
   return (
     <div className="container">
       <main role="main" className="pb-3">
+        {/* action="http://localhost:5174/register"  */}
+
         <form method="post">
           <div className="container border p-4">
             <div className="row text-center p-3">
@@ -21,7 +31,8 @@ function Register() {
                   data-val-required="The Email field is required."
                   id="Email"
                   name="Email"
-                  value=""
+                  value={formValue.Email}
+                  onChange={handleChange}
                 />
                 <span
                   className="text-danger field-validation-valid"
@@ -38,7 +49,8 @@ function Register() {
                   data-val-required="The Name field is required."
                   id="Name"
                   name="Name"
-                  value=""
+                  value={formValue.Name}
+                  onChange={handleChange}
                 />
                 <span
                   className="text-danger field-validation-valid"
@@ -55,7 +67,8 @@ function Register() {
                   data-val-required="The PhoneNumber field is required."
                   id="PhoneNumber"
                   name="PhoneNumber"
-                  value=""
+                  value={formValue.PhoneNumber}
+                  onChange={handleChange}
                 />
                 <span
                   className="text-danger field-validation-valid"
@@ -72,7 +85,8 @@ function Register() {
                   data-val-required="The Password field is required."
                   id="Password"
                   name="Password"
-                  value=""
+                  value={formValue.Password}
+                  onChange={handleChange}
                 />
                 <span
                   className="text-danger field-validation-valid"
