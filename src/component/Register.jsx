@@ -1,22 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { error } from "toastr";
 
 function Register() {
   const initialValue = { Email: "", Name: "", PhoneNumber: "", Password: "" };
   const [formValue, setFormValue] = useState(initialValue);
+  const [formError, setFormError] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = (e) => {
-    console.log(e.target);
     const { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
-    console.log(formValue);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormError(validate(formValue));
+    setIsSubmit(true);
+  };
+
+  useEffect(() => {
+    console.log(formError);
+    if (Object.keys(formError).length === 0 && isSubmit) {
+      console.log(formValue);
+    }
+  }, [formError]);
+
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!values.Email) {
+      errors.Email = "Email is required!";
+    } else if (!regex.test(values.Email)) {
+      errors.Email = "Invalid email format!";
+    }
+
+    if (!values.Name) {
+      errors.Name = "Name is required!";
+    }
+
+    if (!values.PhoneNumber) {
+      errors.PhoneNumber = "Phone Number is required!";
+    }
+
+    if (!values.Password) {
+      errors.Password = "Password is required!";
+    }
+
+    return errors;
   };
 
   return (
     <div className="container">
+      <pre>{JSON.stringify(formValue, undefined, 2)}</pre>
+
       <main role="main" className="pb-3">
         {/* action="http://localhost:5174/register"  */}
 
-        <form method="post">
+        <form onSubmit={handleSubmit} method="post">
           <div className="container border p-4">
             <div className="row text-center p-3">
               <h1>Register</h1>
@@ -41,6 +82,7 @@ function Register() {
                 />
               </div>
               <div className="col-12 col-md-6 offset-md-3 pb-2">
+                <p>{formError.Name}</p>
                 <input
                   className="form-control"
                   placeholder="Name..."
@@ -59,6 +101,7 @@ function Register() {
                 />
               </div>
               <div className="col-12 col-md-6 offset-md-3 pb-2">
+                <p>{formError.PhoneNumber}</p>
                 <input
                   className="form-control"
                   placeholder="Phone Number..."
@@ -77,6 +120,7 @@ function Register() {
                 />
               </div>
               <div className="col-12 col-md-6 offset-md-3 pb-2">
+                <p>{formError.Password}</p>
                 <input
                   className="form-control"
                   placeholder="Password..."
