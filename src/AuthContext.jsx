@@ -18,7 +18,7 @@ export const AuthProvider = (props) => {
   }, []);
 
   const loginUser = async (userInfo) => {
-    try {
+    try { 
       const response = await fetch(
         "https://mangoservicesauthapisf.azurewebsites.net/api/auth/login",
         {
