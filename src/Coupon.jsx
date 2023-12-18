@@ -2,15 +2,19 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import Loader from "./Loader";
 
 //https://mangoservicescouponapisf.azurewebsites.net/api/coupon
 
 const Coupon = () => {
   const [coupons, setCoupons] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const { getToken } = useAuth();
 
   useEffect(() => {
     const token = getToken();
+    setLoading(true);
     fetch("https://mangoservicescouponapisf.azurewebsites.net/api/coupon", {
       headers: {
         Authorization: `bearer ${token}`,
@@ -19,11 +23,14 @@ const Coupon = () => {
       .then((res) => res.json())
       .then((data) => {
         setCoupons(data.result);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="container">
       <main role="main" className="pb-3">
         <div className="card shadow border-0 mt-4">

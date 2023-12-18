@@ -25,7 +25,7 @@ const Details = () => {
                 <h1 className="text-white">Samosa</h1>
               </div>
               <div className="col-12 col-md-6 text-end">
-                <h1 className="text-warning"> 25,00 лв.</h1>
+                <h1 className="text-warning"> 20,00 лв.</h1>
               </div>
             </div>
             <div className="card-body">

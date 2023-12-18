@@ -1,7 +1,16 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import { useEffect } from "react";
 
 const Cart = () => {
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    const token = getToken();
+    //Get real data when backend is ready!
+  }, []);
+
   return (
     <div className="container">
       <main role="main" className="pb-3">
@@ -32,7 +41,8 @@ const Cart = () => {
               <div className="card-header bg-dark text-light ml-0 row ">
                 <div className="col-6">
                   <h3 className="text-success">
-                    <i className="bi bi-cart"></i> &nbsp; Shopping Cart
+                    <i className="bi bi-cart"></i> &nbsp; Shopping Cart /This
+                    data is hardcoded!/
                   </h3>
                 </div>
                 <div className="col-6 text-end">
@@ -55,7 +65,7 @@ const Cart = () => {
                 <div className="row h-100">
                   <div className="col-4 col-md-2 text-center py-2">
                     <img
-                      src="https://oservicesproductapisf.azurewebsites.net/ProductImages/1.jpg"
+                      src="../src/assets/p1.jpg"
                       className="rounded"
                       width="100%"
                     />
@@ -88,7 +98,7 @@ const Cart = () => {
                 <div className="row h-100">
                   <div className="col-4 col-md-2 text-center py-2">
                     <img
-                      src="https://ervicesproductapisf.azurewebsites.net/ProductImages/2.jpg"
+                      src="../src/assets/p2.jpg"
                       className="rounded"
                       width="100%"
                     />
@@ -121,7 +131,7 @@ const Cart = () => {
                 <div className="row h-100">
                   <div className="col-4 col-md-2 text-center py-2">
                     <img
-                      src="https://oservicesproductapisf.azurewebsites.net/ProductImages/3.jpg"
+                      src="../src/assets/p3.jpg"
                       className="rounded"
                       width="100%"
                     />

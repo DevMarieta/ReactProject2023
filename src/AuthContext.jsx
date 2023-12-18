@@ -2,23 +2,27 @@ import { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import toastr from "toastr";
+import Loader from "./Loader";
 
 //admin@abv.bg
 //customer@abv.bg
 //Aa!1asd
-
+//https://www.slingacademy.com/article/javascript-check-if-a-string-contains-non-alphanumeric-characters/
 const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    //setLoading(false)
     checkUserStatus();
   }, []);
 
   const loginUser = async (userInfo) => {
-    try { 
+    setLoading(true);
+    try {
       const response = await fetch(
         "https://mangoservicesauthapisf.azurewebsites.net/api/auth/login",
         {
@@ -42,6 +46,7 @@ export const AuthProvider = (props) => {
       } else {
         toastr.error("Login failed, invalid credentials");
       }
+      setLoading(false);
       navigate("/");
     } catch (err) {}
   };
@@ -88,6 +93,7 @@ export const AuthProvider = (props) => {
       console.error(error);
       setUser(null);
     }
+    setLoading(false);
   };
 
   const contextData = {
@@ -100,7 +106,9 @@ export const AuthProvider = (props) => {
 
   return (
     <AuthContext.Provider value={contextData}>
-      {props.children}
+      {/* {loading ? <img src="../src/assets/loader2.svg" /> : props.children} */}
+
+      {loading ? <Loader /> : props.children}
     </AuthContext.Provider>
   );
 };
