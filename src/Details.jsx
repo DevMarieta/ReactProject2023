@@ -1,16 +1,20 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import Loader from "./Loader";
 
 const Details = () => {
   const { getToken } = useAuth();
   const { productId } = useParams();
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = getToken();
+    setLoading(true);
     fetch(
       `https://mangoservicesproductapisf.azurewebsites.net/api/product/${productId}`,
       {
@@ -20,18 +24,25 @@ const Details = () => {
       }
     )
       .then((res) => res.json())
-      .then((data) => setProduct(data.result))
-      .catch((err) => console.log(err));
-
-    return () => {
-      console.log("COMPONENT UNMOUNTED");
-    };
+      .then((data) => {
+        setProduct(data.result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }, []);
-
-  return (
+  const onAddToCart = async (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="container">
       <main role="main" className="pb-3">
-        <form method="post">
+        <form onSubmit={onAddToCart}>
           <input
             hidden
             type="number"
@@ -90,6 +101,7 @@ const Details = () => {
                           data-val-required="The Count field is required."
                           id="Count"
                           name="Count"
+                          min="1"
                         />
 
                         <span

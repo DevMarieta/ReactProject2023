@@ -1,23 +1,76 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import Loader from "./Loader";
+import toastr from "toastr";
 
 const DeleteProduct = () => {
-  return (
+  const { getToken } = useAuth();
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(false);
+  toastr.options = { timeOut: 3000, hideDuration: 200, extendedTimeOut: 0 };
+
+  useEffect(() => {
+    const token = getToken();
+    setLoading(true);
+    fetch(
+      `https://mangoservicesproductapisf.azurewebsites.net/api/product/${productId}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data.result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
+
+  const processDelete = (e) => {
+    e.preventDefault();
+    const token = getToken();
+    fetch(
+      `https://mangoservicesproductapisf.azurewebsites.net/api/product/${productId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.isSuccess) {
+          toastr.success("Product was deleted.");
+          navigate("/Product");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/Product");
+      });
+  };
+
+  return loading ? (
+    <Loader />
+  ) : (
     <div b-cte7x7hm27="" className="container">
       <main b-cte7x7hm27="" role="main" className="pb-3">
-        <form action="/Product/ProductDelete" method="post">
+        <form onSubmit={processDelete}>
           <br />
           <div className="container border p-3">
             <h1 className="text-white text-center">Delete Product</h1>
-            <input
-              hidden
-              readOnly
-              type="number"
-              data-val="true"
-              data-val-required="The ProductId field is required."
-              id="ProductId"
-              name="ProductId"
-              value="1"
-            />
             <hr />
             <div className="row">
               <div className="col-2">
@@ -34,15 +87,7 @@ const DeleteProduct = () => {
                   type="text"
                   id="Name"
                   name="Name"
-                  value="Samosa"
-                />
-                <input
-                  hidden
-                  readOnly
-                  type="text"
-                  id="Name"
-                  name="Name"
-                  value="Samosa"
+                  value={product.name}
                 />
               </div>
               <div className="col-2">
@@ -59,15 +104,7 @@ const DeleteProduct = () => {
                   type="text"
                   id="CategoryName"
                   name="CategoryName"
-                  value="Appetizer"
-                />
-                <input
-                  hidden
-                  readOnly
-                  type="text"
-                  id="CategoryName"
-                  name="CategoryName"
-                  value="Appetizer"
+                  value={product.categoryName}
                 />
               </div>
               <div className="col-2">
@@ -84,16 +121,7 @@ const DeleteProduct = () => {
                   rows="5"
                   id="Description"
                   name="Description"
-                  value="Quisque vel lacus ac magna, vehicula sagittis ut non lacus. Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium."
-                />
-                <textarea
-                  className="form-control"
-                  rows="5"
-                  hidden
-                  readOnly
-                  id="Description"
-                  name="Description"
-                  value="Quisque vel lacus ac magna, vehicula sagittis ut non lacus. Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium."
+                  value={product.description}
                 />
               </div>
               <div className="col-2">
@@ -113,46 +141,14 @@ const DeleteProduct = () => {
                   data-val-required="The Price field is required."
                   id="Price"
                   name="Price"
-                  value="15"
-                />
-                <input
-                  hidden
-                  readOnly
-                  type="text"
-                  id="Price"
-                  name="Price"
-                  value="15"
+                  value={product.price}
                 />
               </div>
-              <div className="col-2">
-                <label
-                  className="control-label pt-2"
-                  style={{ fontSize: "20px" }}>
-                  ImageUrl
-                </label>
-              </div>
-              <div className="col-10 pb-3">
-                <input
-                  disabled
-                  className="form-control"
-                  type="text"
-                  id="ImageUrl"
-                  name="ImageUrl"
-                  value="https://mangoservicesproductapisf.azurewebsites.net/ProductImages/1.jpg"
-                />
-                <input
-                  hidden
-                  readOnly
-                  type="text"
-                  id="ImageUrl"
-                  name="ImageUrl"
-                  value="https://mangoservicesproductapisf.azurewebsites.net/ProductImages/1.jpg"
-                />
-              </div>
+
               <div className="col-5 offset-2">
-                <a className="btn-primary btn form-control " href="/Product">
+                <Link to="/Product" className="btn-primary btn form-control">
                   Back to List
-                </a>
+                </Link>
               </div>
               <div className="col-5">
                 <input

@@ -3,14 +3,17 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import Loader from "./Loader";
 
 const DeleteCoupon = () => {
   const { getToken } = useAuth();
   const { couponId } = useParams();
   const navigate = useNavigate();
   const [coupon, setCoupon] = useState({});
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const token = getToken();
+    setLoading(true);
     fetch(
       `https://mangoservicescouponapisf.azurewebsites.net/api/coupon/${couponId}`,
       {
@@ -22,8 +25,12 @@ const DeleteCoupon = () => {
       .then((res) => res.json())
       .then((data) => {
         setCoupon(data.result);
+        setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
 
     return () => {
       console.log("COMPONENT UNMOUNTED");
@@ -46,19 +53,17 @@ const DeleteCoupon = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        setCoupon(data.result);
+        navigate("/Coupon");
       })
       .catch((err) => {
         console.log(err);
         navigate("/Coupon");
       });
-    navigate("/Coupon");
-    return () => {
-      console.log("COMPONENT UNMOUNTED");
-    };
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="container">
       <main role="main" className="pb-3">
         <form onSubmit={processDelete}>

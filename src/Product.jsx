@@ -1,20 +1,29 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("https://mangoservicesproductapisf.azurewebsites.net/api/product")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.result);
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div b-cte7x7hm27="" className="container">
       <main b-cte7x7hm27="" role="main" className="pb-3">
         <div className="card shadow border-0 mt-4">

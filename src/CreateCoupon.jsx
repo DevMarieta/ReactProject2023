@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import toastr from "toastr";
+import Loader from "./Loader";
 
 const CreateCoupon = () => {
   const [couponCode, setCouponCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState("");
   const [minimumAmount, setMinimumAmount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { getToken } = useAuth();
   const navigate = useNavigate();
@@ -39,13 +41,17 @@ const CreateCoupon = () => {
         toastr.error(`Bad Request: ${result.message}`);
       } else {
         toastr.success("Coupon created successfully!");
+        setLoading(false);
       }
+
       navigate("/Coupon");
     } catch (err) {
       toastr.error("Bad Request");
     }
   };
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="container">
       <main role="main" className="pb-3">
         <br />

@@ -1,20 +1,26 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Card from "./Card";
+import Loader from "./src/Loader";
 
 const Home = () => {
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("https://mangoservicesproductapisf.azurewebsites.net/api/product")
       .then((res) => res.json())
       .then((data) => {
         setCards(data.result);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="container">
       <div className="container row">
         {cards.map((card) => (

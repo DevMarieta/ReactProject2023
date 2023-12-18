@@ -7,9 +7,9 @@ import toastr from "toastr";
 const CreateProduct = () => {
   const [productName, setProductName] = useState("");
   const [catName, setCatName] = useState("");
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [imgFile, setImgFile] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [imgFile, setImgFile] = useState();
 
   const { getToken } = useAuth();
   const navigate = useNavigate();
@@ -18,43 +18,44 @@ const CreateProduct = () => {
   const onCreateProduct = async (e) => {
     e.preventDefault();
     try {
-      const data = {
-        name: productName,
-        categoryName: catName,
-        description: "Alalbalaportokala",
-        price: price,
-        imageLocalPath: imgFile,
-        ImageUrl: imgUrl,
-      };
-      const toBody = JSON.stringify(data);
       const token = getToken();
+      const formData = new FormData();
+      formData.append("name", productName);
+      formData.append("categoryName", catName);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("image", imgFile);
+
       const responce = await fetch(
         "https://mangoservicesproductapisf.azurewebsites.net/api/product",
         {
           method: "POST",
           headers: {
-            "Content-Type": "multipart/form-data",
+            Accept: "*/*",
             Authorization: `bearer ${token}`,
           },
-          body: toBody,
+          body: formData,
         }
       );
       const result = await responce.json();
       if (!result.isSuccess) {
         toastr.error(`Bad Request: ${result.message}`);
       } else {
-        toastr.success("Coupon created successfully!");
+        toastr.success("Product created successfully!");
       }
-      navigate("/Coupon");
+      navigate("/Product");
     } catch (err) {
       toastr.error("Bad Request");
     }
   };
-
+  function handleChange(event) {
+    setImgFile(event.target.files[0]);
+    event.target.defaultValue = event.target.files[0].name;
+  }
   return (
     <div className="container">
       <main role="main" className="pb-3">
-        <form onSubmit={onCreateProduct} encType="multipart/form-data">
+        <form onSubmit={onCreateProduct}>
           <br />
           <div className="container border p-3">
             <h1 className="text-white text-center">Create Product</h1>
@@ -112,7 +113,8 @@ const CreateProduct = () => {
                   className="form-control"
                   rows="5"
                   id="Description"
-                  name="Description"></textarea>
+                  name="Description"
+                  onChange={(e) => setDescription(e.target.value)}></textarea>
                 <span
                   className="text-danger field-validation-valid"
                   data-valmsg-for="Description"
@@ -154,18 +156,9 @@ const CreateProduct = () => {
                   className="form-control"
                   type="file"
                   id="Image"
-                  name="Image"
-                  value={imgFile}
-                  onChange={(e) => setImgFile(e.target.value)}
-                />
-                <input
-                  hidden
-                  className="form-control"
-                  type="text"
-                  id="ImageUrl"
-                  name="ImageUrl"
-                  value={imgUrl}
-                  onChange={(e) => setImgUrl(e.target.value)}
+                  name="fileName"
+                  defaultValue=""
+                  onChange={handleChange}
                 />
                 <span
                   className="text-danger field-validation-valid"
@@ -173,11 +166,9 @@ const CreateProduct = () => {
                   data-valmsg-replace="true"></span>
               </div>
               <div className="col-5 offset-2">
-                <a
-                  className="btn-primary btn form-control "
-                  href="/Product/ProductIndex">
+                <Link to="/Product" className="btn-primary btn form-control">
                   Back to List
-                </a>
+                </Link>
               </div>
               <div className="col-5">
                 <input
