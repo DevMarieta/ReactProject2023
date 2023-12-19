@@ -14,7 +14,7 @@ function Login() {
   toastr.options = { timeOut: 3000, hideDuration: 200, extendedTimeOut: 0 };
   const processLogin = (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (validate) {
       let inputObj = { userName: userName, password: password };
       try {
         loginUser(inputObj);
@@ -24,17 +24,17 @@ function Login() {
     }
   };
 
-  function validate() {
-    if (userName === "" || userName === null) {
-      toastr.warning("Please Enter Username");
+  const validate = () => {
+    if (username === "" || username === null) {
+      toast.warning("Please Enter Username");
       return false;
     }
     if (password === "" || password === null) {
-      toastr.warning("Please Enter Password");
+      toast.warning("Please Enter Password");
       return false;
     }
     return true;
-  }
+  };
 
   return (
     <div className="container">
@@ -51,7 +51,6 @@ function Login() {
                   onChange={(e) => setUserName(e.target.value)}
                   className="form-control"
                   placeholder="email..."
-                  type="email"
                 />
                 <span asp-validation-for="UserName" className="text-danger" />
               </div>

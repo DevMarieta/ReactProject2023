@@ -67,16 +67,6 @@ export const AuthProvider = (props) => {
 
   const registerUser = async (userInfo) => {
     try {
-      // let response = await account.create(
-      //   ID.unique(),
-      //   userInfo.email,
-      //   userInfo.password1,
-      //   userInfo.name
-      // );
-
-      // await account.createEmailSession(userInfo.email, userInfo.password1);
-      // let accountDetails = await account.get();
-      // setUser(true);
       navigate("/");
     } catch (error) {
       console.error(error);

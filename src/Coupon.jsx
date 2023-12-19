@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import Loader from "./Loader";
 
-//https://mangoservicescouponapisf.azurewebsites.net/api/coupon
-
 const Coupon = () => {
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(false);

@@ -116,7 +116,7 @@ const Register = () => {
   }
 
   function validatePassword(password) {
-    //if(pas1===pas2)
+ 
     if (password.length < 6) {
       toastr.warning("Password must be min 6 characters!");
       return false;

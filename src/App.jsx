@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import toastr from "toastr";
 import Login from "./Login";
 import { Header } from "./Header";
 import Footer from "./Footer";
@@ -17,12 +15,7 @@ import EditProduct from "./EditProduct";
 import DeleteProduct from "./DeleteProduct";
 import Cart from "./Cart";
 
-import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./AuthContext";
 
-//https://codeseven.github.io/toastr/demo.html
-//npm install toastr
-//https://www.techomoro.com/submit-a-form-data-to-rest-api-in-a-react-app/
 
 function App() {
   return (

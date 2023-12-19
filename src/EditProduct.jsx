@@ -12,7 +12,6 @@ const EditProduct = () => {
   const [price, setPrice] = useState("");
   const [imgFile, setImgFile] = useState();
 
-  const [product, setProduct] = useState({});
   const { productId } = useParams();
   const { getToken } = useAuth();
   const navigate = useNavigate();
@@ -47,7 +46,9 @@ const EditProduct = () => {
     e.preventDefault();
     try {
       const token = getToken();
+
       const formData = new FormData();
+      formData.append("productId", productId);
       formData.append("name", productName);
       formData.append("categoryName", catName);
       formData.append("description", description);
@@ -69,7 +70,8 @@ const EditProduct = () => {
       if (!result.isSuccess) {
         toastr.error(`Bad Request: ${result.message}`);
       } else {
-        toastr.success("Product created successfully!");
+        toastr.success("Product updated successfully!");
+        navigate("/Product");
       }
       navigate("/Product");
     } catch (err) {
